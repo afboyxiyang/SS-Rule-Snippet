@@ -1,4 +1,4 @@
-# 2019-01-22 23:13:14
+# 2019-03-10 18:17:37
 #---------------------------------------------------#
 ## 配置文件需要放置在 $HOME/.config/clash/config.yml
 ## 
@@ -20,12 +20,16 @@ allow-lan: false
 # 规则模式：Rule（规则） / Global（全局代理）/ Direct（全局直连）
 mode: Rule
 
-# 设置日志输出级别 (默认级别：info，级别越高日志输出量越大，越倾向于调试)
-# 四个级别：info / warning / error / debug
-log-level: info
+# 设置日志输出级别 (默认级别：silent，即不输出任何内容，以避免因日志内容过大而导致程序内存溢出）。
+# 5 个级别：silent / info / warning / error / debug。级别越高日志输出量越大，越倾向于调试，若需要请自行开启。
+log-level: silent
 
 # clash 的 RESTful API
 external-controller: 127.0.0.1:9090
+
+# 您可以将静态网页资源（如 clash-dashboard）放置在一个目录中，clash 将会服务于 `${API}/ui`
+# 参数应填写配置目录的相对路径或绝对路径。
+# external-ui: folder
 
 # RESTful API 的口令 (可选)
 secret: ""
@@ -64,37 +68,60 @@ Proxy:
 # 支持加密方式： AEAD_AES_128_GCM AEAD_AES_192_GCM AEAD_AES_256_GCM AEAD_CHACHA20_POLY1305 AES-128-CTR AES-192-CTR AES-256-CTR AES-128-CFB AES-192-CFB AES-256-CFB CHACHA20-IETF XCHACHA20 
 # clash 额外支持 chacha20 rc4-md5 xchacha20-ietf-poly1305 加密方式
 
-- { name: "ss1", type: ss, server: "server", port: 443, cipher: AEAD_CHACHA20_POLY1305, password: "password" }
-- { name: "ss2", type: ss, server: "server", port: 443, cipher: AEAD_CHACHA20_POLY1305, password: "password", obfs: tls, obfs-host: "bing.com" }
+- name: "ss1"
+  type: ss
+  server: server
+  port: 443
+  cipher: AEAD_CHACHA20_POLY1305
+  password: "password"
+  plugin: obfs
+  plugin-opts:
+    mode: tls # 混淆模式，可以选择 http 或 tls
+    host: bing.com # 混淆域名，需要和服务器配置保持一致
+
+- name: "ss2"
+  type: ss
+  server: server
+  port: 443
+  cipher: AEAD_CHACHA20_POLY1305
+  password: "password"
+  plugin: v2ray-plugin
+  plugin-opts:
+    mode: websocket # 暂时不支持 QUIC 协议
+    # tls: true # wss
+    # skip-cert-verify: true
+    # host: bing.com
+    # path: "/"
 
 # vmess
 # 支持加密方式：auto / aes-128-gcm / chacha20-poly1305 / none
 - { name: "vmess", type: vmess, server: server, port: 443, uuid: uuid, alterId: 32, cipher: auto }
 #   tls
 - { name: "vmess", type: vmess, server: server, port: 443, uuid: uuid, alterId: 32, cipher: auto, tls: true }
-#   tls + skip-cert-verify
+#   tls (skip-cert-verify)
 - { name: "vmess", type: vmess, server: server, port: 443, uuid: uuid, alterId: 32, cipher: auto, tls: true, skip-cert-verify: true }
-#   ws
-- { name: "vmess", type: vmess, server: server, port: 443, uuid: uuid, alterId: 32, cipher: auto, network: ws, ws-path: /path }
+#   ws-path + ws-headers
+- { name: "vmess", type: vmess, server: server, port: 443, uuid: uuid, alterId: 32, cipher: auto, network: ws, ws-path: /path, ws-headers: { Host: v2ray.com } }
 #   ws + tls
 - { name: "vmess", type: vmess, server: server, port: 443, uuid: uuid, alterId: 32, cipher: auto, network: ws, ws-path: /path, tls: true }
 
-# socks5
+
+#   socks5
 - { name: "socks", type: socks5, server: server, port: 443 }
-# socks5 with authentication
+#   socks5 with authentication
 - { name: "socks", type: socks5, server: server, port: 443, username: "username", password: "password" }
-# with tls
+#   tls
 - { name: "socks", type: socks5, server: server, port: 443, tls: true }
-# with tls and skip-cert-verify
+#   tls (skip-cert-verify)
 - { name: "socks", type: socks5, server: server, port: 443, tls: true, skip-cert-verify: true }
 
-# http
+#   http
 - { name: "http", type: http, server: server, port: 443 }
-# http with authentication
+#   http with authentication
 - { name: "http", type: http, server: server, port: 443, username: "username", password: "password" }
-# with tls (https)
+#   tls (https)
 - { name: "http", type: http, server: server, port: 443, tls: true }
-# with tls (https) and skip-cert-verify
+#   tls (https)  (skip-cert-verify)
 - { name: "http", type: http, server: server, port: 443, tls: true, skip-cert-verify: true }
 
 Proxy Group:
@@ -104,6 +131,9 @@ Proxy Group:
 # fallback 可以尽量按照用户书写的服务器顺序，在确保服务器可用的情况下，自动选择服务器
 - { name: "fallback-auto", type: fallback, proxies: ["ss1", "ss2", "vmess1"], url: "https://www.bing.com", interval: 300 }
 
+# load-balance 可以使相同 eTLD 请求在同一条代理线路上
+- { name: "load-balance", type: load-balance, proxies: ["ss1", "ss2", "vmess1"] }
+
 # select 用来允许用户手动选择 代理服务器 或 服务器组
 # 您也可以使用 RESTful API 去切换服务器，这种方式推荐在 GUI 中使用
 - { name: "Proxy", type: select, proxies: ["ss1", "ss2", "vmess1", "auto"] }
@@ -112,6 +142,8 @@ Rule:
 # Apple
 - DOMAIN,hls.itunes.apple.com,Proxy
 - DOMAIN,itunes.apple.com,Proxy
+- DOMAIN,itunes.com,Proxy
+- DOMAIN-SUFFIX,digicert.com,DIRECT
 - DOMAIN-SUFFIX,icloud.com,DIRECT
 - DOMAIN-SUFFIX,icloud-content.com,DIRECT
 - DOMAIN-SUFFIX,mzstatic.com,DIRECT
@@ -226,7 +258,9 @@ Rule:
 - DOMAIN-SUFFIX,sspai.com,DIRECT
 - DOMAIN-SUFFIX,suning.com,DIRECT
 - DOMAIN-SUFFIX,taobao.com,DIRECT
+- DOMAIN-SUFFIX,tencent.com,DIRECT
 - DOMAIN-SUFFIX,tenpay.com,DIRECT
+- DOMAIN-SUFFIX,tianyancha.com,DIRECT
 - DOMAIN-SUFFIX,tmall.com,DIRECT
 - DOMAIN-SUFFIX,tudou.com,DIRECT
 - DOMAIN-SUFFIX,umetrip.com,DIRECT
@@ -350,7 +384,6 @@ Rule:
 - DOMAIN-SUFFIX,dayone.me,Proxy
 - DOMAIN-SUFFIX,db.tt,Proxy
 - DOMAIN-SUFFIX,deskconnect.com,Proxy
-- DOMAIN-SUFFIX,digicert.com,Proxy
 - DOMAIN-SUFFIX,disq.us,Proxy
 - DOMAIN-SUFFIX,disqus.com,Proxy
 - DOMAIN-SUFFIX,disquscdn.com,Proxy

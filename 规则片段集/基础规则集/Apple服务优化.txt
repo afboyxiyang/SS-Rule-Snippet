@@ -2,8 +2,12 @@
 PROCESS-NAME,News,Proxy
 DOMAIN,hls.itunes.apple.com,Proxy
 DOMAIN,itunes.apple.com,Proxy
+DOMAIN,itunes.com,Proxy
 PROCESS-NAME,storedownloadd,DIRECT
-USER-AGENT,com.apple.appstored*,DIRECT
+PROCESS-NAME,trustd,DIRECT
+USER-AGENT,com.apple.geod*,DIRECT
+USER-AGENT,com.apple.Maps,DIRECT
+USER-AGENT,*com.apple.mobileme.fmip1,DIRECT
 DOMAIN-SUFFIX,icloud.com,DIRECT
 DOMAIN-SUFFIX,icloud-content.com,DIRECT
 DOMAIN-SUFFIX,mzstatic.com,DIRECT
