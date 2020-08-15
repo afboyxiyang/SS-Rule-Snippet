@@ -12,7 +12,6 @@ DOMAIN-SUFFIX,36kr.com
 DOMAIN-SUFFIX,acfun.tv
 DOMAIN-SUFFIX,air-matters.com
 DOMAIN-SUFFIX,aixifan.com
-DOMAIN-SUFFIX,akamaized.net
 DOMAIN-KEYWORD,alicdn
 DOMAIN-KEYWORD,alipay
 DOMAIN-KEYWORD,aliyun
@@ -23,6 +22,7 @@ DOMAIN-KEYWORD,baidu
 DOMAIN-SUFFIX,bdimg.com
 DOMAIN-SUFFIX,bdstatic.com
 DOMAIN-SUFFIX,bilibili.com
+DOMAIN-SUFFIX,bilivideo.com
 DOMAIN-SUFFIX,caiyunapp.com
 DOMAIN-SUFFIX,clouddn.com
 DOMAIN-SUFFIX,cnbeta.com
@@ -92,6 +92,7 @@ DOMAIN-SUFFIX,ruguoapp.com
 DOMAIN-SUFFIX,segmentfault.com
 DOMAIN-SUFFIX,sinaapp.com
 DOMAIN-SUFFIX,smzdm.com
+DOMAIN-SUFFIX,snapdrop.net
 DOMAIN-SUFFIX,sogou.com
 DOMAIN-SUFFIX,sogoucdn.com
 DOMAIN-SUFFIX,sohu.com
@@ -108,7 +109,6 @@ DOMAIN-SUFFIX,tudou.com
 DOMAIN-SUFFIX,umetrip.com
 DOMAIN-SUFFIX,upaiyun.com
 DOMAIN-SUFFIX,upyun.com
-DOMAIN-SUFFIX,v2ex.com
 DOMAIN-SUFFIX,veryzhun.com
 DOMAIN-SUFFIX,weather.com
 DOMAIN-SUFFIX,weibo.com
@@ -128,3 +128,4 @@ DOMAIN-SUFFIX,zealer.com
 DOMAIN-SUFFIX,zhihu.com
 DOMAIN-SUFFIX,zhimg.com
 DOMAIN-SUFFIX,zimuzu.tv
+DOMAIN-SUFFIX,zoho.com

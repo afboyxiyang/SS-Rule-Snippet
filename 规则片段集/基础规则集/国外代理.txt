@@ -21,6 +21,7 @@ DOMAIN-SUFFIX,9to5mac.com,Proxy
 DOMAIN-SUFFIX,abpchina.org,Proxy
 DOMAIN-SUFFIX,adblockplus.org,Proxy
 DOMAIN-SUFFIX,adobe.com,Proxy
+DOMAIN-SUFFIX,akamaized.net,Proxy
 DOMAIN-SUFFIX,alfredapp.com,Proxy
 DOMAIN-SUFFIX,amplitude.com,Proxy
 DOMAIN-SUFFIX,ampproject.org,Proxy
@@ -123,6 +124,7 @@ DOMAIN-SUFFIX,gvt0.com,Proxy
 DOMAIN-SUFFIX,hockeyapp.net,Proxy
 DOMAIN-SUFFIX,hotmail.com,Proxy
 DOMAIN-SUFFIX,icons8.com,Proxy
+DOMAIN-SUFFIX,ifixit.com,Proxy
 DOMAIN-SUFFIX,ift.tt,Proxy
 DOMAIN-SUFFIX,ifttt.com,Proxy
 DOMAIN-SUFFIX,iherb.com,Proxy
@@ -251,6 +253,7 @@ DOMAIN-SUFFIX,ulyssesapp.com,Proxy
 DOMAIN-SUFFIX,urchin.com,Proxy
 DOMAIN-SUFFIX,usertrust.com,Proxy
 DOMAIN-SUFFIX,v.gd,Proxy
+DOMAIN-SUFFIX,v2ex.com,Proxy
 DOMAIN-SUFFIX,vimeo.com,Proxy
 DOMAIN-SUFFIX,vimeocdn.com,Proxy
 DOMAIN-SUFFIX,vine.co,Proxy
